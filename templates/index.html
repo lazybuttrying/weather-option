@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Option Strike Calculator</title>
+</head>
+<body>
+  <h1>Option Strike Calculator</h1>
+  <form method="post">
+    <label for="S">Underlying Price (S):</label>
+    <input type="text" name="S" id="S" value="100" required><br>
+
+    <label for="r">Risk-free Rate (r, e.g., 0.01 for 1%):</label>
+    <input type="text" name="r" id="r" value="0.01" required><br>
+
+    <label for="sigma">Volatility (σ, e.g., 0.20 for 20%):</label>
+    <input type="text" name="sigma" id="sigma" value="0.20" required><br>
+
+    <label for="T">Time to Expiration (T in years, e.g., 0.25 for 3 months):</label>
+    <input type="text" name="T" id="T" value="0.25" required><br>
+
+    <label for="strikes">Strike Prices (comma-separated, optional):</label>
+    <input type="text" name="strikes" id="strikes" placeholder="e.g., 95, 100, 105"><br>
+
+    <button type="submit">Calculate</button>
+  </form>
+
+  {% if error %}
+    <p style="color:red;">{{ error }}</p>
+  {% endif %}
+
+  {% if results %}
+    <h2>Results</h2>
+    <table border="1" cellspacing="0" cellpadding="5">
+      <thead>
+        <tr>
+          <th>Strike Price</th>
+          <th>d2</th>
+          <th>N(d2) (Risk-neutral probability)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for res in results %}
+        <tr>
+          <td>{{ res.strike }}</td>
+          <td>{{ res.d2 }}</td>
+          <td>{{ res.probability }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  <p><a href="{{ url_for('weather') }}">Search Weather</a></p>
+  <p><a href="{{ url_for('weather_strike') }}">Weather Strike Calculator</a></p>
+</body>
+</html>

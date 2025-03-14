@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Weather Strike Calculator</title>
+</head>
+<body>
+  <h1>Weather Strike Calculator</h1>
+  <form method="post">
+    <label for="location">Enter Location:</label>
+    <input type="text" name="location" id="location" value="{{ location }}" required><br>
+    
+    <label for="strike_temp">Strike Temperature (°C):</label>
+    <input type="text" name="strike_temp" id="strike_temp" placeholder="e.g., 25" required><br>
+    
+    <button type="submit">Calculate Probability</button>
+  </form>
+
+  {% if error %}
+    <p style="color:red;">{{ error }}</p>
+  {% endif %}
+
+  {% if result %}
+    <h2>Result for {{ result.location }}</h2>
+    <p>Current Temperature: {{ result.current_temp }} °C</p>
+    <p>Strike Temperature: {{ result.strike_temp }} °C</p>
+    <p>Probability temperature exceeds strike: {{ result.probability }}</p>
+    
+    {% if plot_url %}
+      <h3>Probability Plot</h3>
+      <img src="data:image/png;base64,{{ plot_url }}" alt="Probability Plot">
+    {% endif %}
+  {% endif %}
+
+  <p><a href="{{ url_for('index') }}">Option Strike Calculator</a></p>
+  <p><a href="{{ url_for('weather') }}">Weather Search</a></p>
+</body>
+</html>
